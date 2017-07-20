@@ -33,6 +33,22 @@ print <<HERE;
 HERE
 }
 
+sub update_check {
+  my $lwp = LWP::UserAgent->new;
+  $lwp->agent("Mozilla/5.0");
+  my $response = $lwp->get();
+  open(UPDATE, ">", "update.txt");
+  print UPDATE $response->decoded_content;
+  close(UPDATE);
+  open(UPDATE, "<", "update.txt");
+  while(<UPDATE>){
+    if($_ =~ /==update disponible==/){
+	
+	}
+  }
+  close(UPDATE);
+} 
+
 clear();
 banner();
 
@@ -66,13 +82,13 @@ print SEARCH $response->decoded_content;
 use warnings;
 close(SEARCH);
 open(SEARCH, "<", "search.txt");
-$loop = 0;
+$loop = 1;
 while(<SEARCH>){
-  if($loop == $results){
+  if($loop == $results + 1){
     last;
   }
   if($_ =~ /<a href="\/torrent\/(.*?)\/(.*?)"(.*?)>(.*?)<\/a>/i){
-    print color("GREEN"),"Titulo",color("reset") . ": $4";
+    print "$loop - " . color("GREEN"),"Titulo",color("reset") . ": $4";
   }
   if($_ =~ /<font class="detDesc">(.*?)(\d+)&nbsp;(KiB|MiB|GiB)(.*?)<(.*?)/i){
     print color("GREEN")," Tamanho",color("reset") . ": $2$3\n";
