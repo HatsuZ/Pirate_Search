@@ -31,22 +31,6 @@ print <<HERE;
 \t||.
 \n\n
 HERE
-}
-
-sub update_check {
-  my $lwp = LWP::UserAgent->new;
-  $lwp->agent("Mozilla/5.0");
-  my $response = $lwp->get();
-  open(UPDATE, ">", "update.txt");
-  print UPDATE $response->decoded_content;
-  close(UPDATE);
-  open(UPDATE, "<", "update.txt");
-  while(<UPDATE>){
-    if($_ =~ /==update disponible==/){
-	
-	}
-  }
-  close(UPDATE);
 } 
 
 clear();
