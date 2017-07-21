@@ -98,6 +98,11 @@ while(<SEARCH>){
 	$loop++;
   }
 }
+if(-s "search.txt"){
+  print color("RED"),"[!]",color("reset") . " Sem resultados :(\n";
+  print color("GREEN"),"\n[*]",color("reset") . " Pirate Search v2.0\n";
+  exit;
+}
 close(SEARCH);
 print "\n";
 print color("RED"),"[!]",color("reset") . " Ver informacao de algum (y|n): ";
