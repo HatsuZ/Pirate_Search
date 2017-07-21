@@ -36,6 +36,18 @@ HERE
 clear();
 banner();
 
+foreach(glob "*.txt"){
+  if($_ eq "torrents.txt"){
+    unlink "torrents.txt";
+  }
+  if($_ eq "search.txt"){
+    unlink "search.txt";
+  }
+  if($_ eq "info.txt"){
+    unlink "info.txt";
+  }
+}
+
 my ($url, $num , $_num, $agent, $qntd, $loop, $search, $results) = undef;
 print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
 chomp($search = <STDIN>);
@@ -82,6 +94,13 @@ while(<SEARCH>){
 	$loop++;
   }
 }
+if(! -e "torrents.txt"){
+  print color("RED"),"[!]",color("reset") . " Nenhum resultado :(\n";
+  print color("GREEN"),"\n[*]",color("reset") . " Pirate Search v2.0\n";
+  close(SEARCH);
+  unlink "search.txt";
+  exit;
+}
 close(SEARCH);
 print "\n";
 print color("RED"),"[!]",color("reset") . " Ver informacao de algum (y|n): ";
@@ -125,4 +144,3 @@ if($num =~ /y/i){
   print color("GREEN"),"\n[*]",color("reset") . " Pirate Search v2.0\n";
   exit;
 }
-unlink "search.txt", "info.txt", "torrents.txt";
