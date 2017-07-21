@@ -16,7 +16,7 @@ sub clear {
 sub banner {
 print <<HERE;
 \n
-\t/\     PIRATE SEARCH v1.0
+\t/\     PIRATE SEARCH v2.0
 \t||_____-----_____-----_____
 \t||   O                  O  \\
 \t||    O\\\\    ___    //O    /
@@ -52,7 +52,7 @@ sub update_check {
 clear();
 banner();
 
-my ($url, $agent, $qntd, $loop, $search, $results) = undef;
+my ($url, $num , $_num, $agent, $qntd, $loop, $search, $results) = undef;
 print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
 chomp($search = <STDIN>);
 while(!$search){
@@ -88,6 +88,9 @@ while(<SEARCH>){
     last;
   }
   if($_ =~ /<a href="\/torrent\/(.*?)\/(.*?)"(.*?)>(.*?)<\/a>/i){
+    open(TORRENTS, ">>", "torrents.txt");
+	print TORRENTS "https://www.thepiratebay.org/torrent/$1/$2\n";
+	close(TORRENTS);
     print "$loop - " . color("GREEN"),"Titulo",color("reset") . ": $4";
   }
   if($_ =~ /<font class="detDesc">(.*?)(\d+)&nbsp;(KiB|MiB|GiB)(.*?)<(.*?)/i){
@@ -96,4 +99,46 @@ while(<SEARCH>){
   }
 }
 close(SEARCH);
-unlink "search.txt";
+print "\n";
+print color("RED"),"[!]",color("reset") . " Ver informacao de algum (y|n): ";
+chomp($num = <STDIN>);
+while(!$num){
+  clear();
+  banner();
+  print color("RED"),"[!]",color("reset") . " Ver informacao de algum (y|n): ";
+  chomp($num = <STDIN>);
+}
+if($num =~ /y/i){
+  print color("RED"),"[!]",color("reset") . " Digite o numero: ";
+  chomp($_num = <STDIN>);
+  while(!$_num){
+    print color("RED"),"[!]",color("reset") . " Digite o numero: ";
+    chomp($_num = int(<STDIN>));
+  }
+  open(TORRENT, "<", "torrents.txt");
+  my $new_agent = LWP::UserAgent->new;
+  $new_agent->agent("Mozilla/5.0");
+  while(<TORRENT>){
+    if($. == $_num){
+	  my $new_response = $new_agent->get($_);
+	  open(INFO, ">", "info.txt");
+	  no warnings;
+	  print INFO $new_response->decoded_content;
+	  use warnings;
+	  close(INFO);
+	  open(INFO, "<", "info.txt");
+	  while(<INFO>){ 
+	    if($_ =~ /<a(.*?)href="magnet(.*?)"(.*?)>/i){
+	  	  print color("GREEN"),"\n[*]",color("reset") . " Magnet link: magnet$2\n";
+		  last;
+		}
+	  }
+	  close(INFO);
+	}
+  }
+  close(TORRENT);
+}else{
+  print color("GREEN"),"\n[*]",color("reset") . " Pirate Search v2.0\n";
+  exit;
+}
+unlink "search.txt", "info.txt", "torrents.txt";
