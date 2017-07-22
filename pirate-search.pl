@@ -144,7 +144,7 @@ if($num =~ /y/i){
   chomp($_num = <STDIN>);
   while(!$_num){
     print color("RED"),"[!]",color("reset") . " Digite o numero: ";
-    chomp($_num = int(<STDIN>));
+    chomp($_num = <STDIN>);
   }
   open(TORRENT, "<", "torrents.txt");
   my $new_agent = LWP::UserAgent->new;
