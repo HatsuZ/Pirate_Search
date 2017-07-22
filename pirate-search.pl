@@ -1,9 +1,14 @@
 #!/usr/bin/perl
+# v2.0
 use Term::ANSIColor;
 use LWP::UserAgent;
 use warnings;
 use Config;
 use strict;
+
+### VERSION NUMBER ###
+my $version = "v2.0";
+### VERSION NUMBER ###
 
 sub clear {
   if($Config{osname} =~ /win/i){
@@ -33,8 +38,29 @@ print <<HERE;
 HERE
 } 
 
+sub update_check {
+  my $update = LWP::UserAgent->new;
+  $update->agent("Mozilla/5.0");
+  my $_update = $update->get("https://attperl.000webhostapp.com");
+  open(UPDATE, ">", "update.txt");
+  print UPDATE $_update->decoded_content;
+  close(UPDATE);
+  open(UPDATE, "<", "update.txt");
+  while(<UPDATE>){
+    if(/===Versao:(.*?)===/i){
+	  if($1 ne $version){
+	    print "+" . "-" x 35 . "+\n";
+	    print color("GREEN"),"Atualizacao disponivel $1",color("reset") . ": https://github.com/HatsuZ/Pirate-Search/edit/master/pirate-search.pl\n";
+	    print "+" . "-" x 35 . "+\n\n";
+	  }
+	}
+  }
+  close(UPDATE);
+}
+
 clear();
 banner();
+update_check();
 
 foreach(glob "*.txt"){
   if($_ eq "torrents.txt"){
@@ -89,7 +115,7 @@ while(<SEARCH>){
 	close(TORRENTS);
     print "$loop - " . color("GREEN"),"Titulo",color("reset") . ": $4";
   }
-  if($_ =~ /<font class="detDesc">(.*?)(\d+)&nbsp;(KiB|MiB|GiB)(.*?)<(.*?)/i){
+  if($_ =~ /<font class="detDesc">(.*?)(\d+)&nbsp;(B|KiB|MiB|GiB|TiB)(.*?)<(.*?)/i){
     print color("GREEN")," Tamanho",color("reset") . ": $2$3\n";
 	$loop++;
   }
@@ -131,7 +157,7 @@ if($num =~ /y/i){
 	  close(INFO);
 	  open(INFO, "<", "info.txt");
 	  while(<INFO>){ 
-	    if($_ =~ /<a(.*?)href="magnet(.*?)"(.*?)>/i){
+	    if($_ =~ /<a(.*?)href="magnet(.*?)"(.*?)>/ig){
 	  	  print color("GREEN"),"\n[*]",color("reset") . " Magnet link: magnet$2\n";
 		  last;
 		}
