@@ -78,13 +78,20 @@ my ($url, $num , $_num, $agent, $qntd, $loop, $search, $results) = undef;
 print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
 chomp($search = <STDIN>);
 while(!$search){
+  clear();
+  banner();
+  update_check();
   print color("RED"),"\n[!]",color("reset") . " Digite sua pesquisa: ";
   chomp($search = <STDIN>);
 }
-print color("RED"),"\n[!]",color("reset") . " Digite a quantidade de resultados: ";
+print color("RED"),"[!]",color("reset") . " Digite a quantidade de resultados: ";
 chomp($results = <STDIN>);
 while(!$results){
-  print color("RED"),"\n[!]",color("reset") . " Digite a quantidade de resultados: ";
+  clear();
+  banner();
+  update_check();
+  print color("RED"),"[!]",color("reset") . "Digite sua pesquisa: $search\n";
+  print color("RED"),"[!]",color("reset") . " Digite a quantidade de resultados: ";
   chomp($results = <STDIN>);
 }
 print "\n";
