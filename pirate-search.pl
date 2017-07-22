@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-# v2.0
 use Term::ANSIColor;
 use LWP::UserAgent;
 use warnings;
@@ -7,7 +6,7 @@ use Config;
 use strict;
 
 ### VERSION NUMBER ###
-my $version = "v2.0";
+my $version = "v3.0";
 ### VERSION NUMBER ###
 
 sub clear {
@@ -21,7 +20,7 @@ sub clear {
 sub banner {
 print <<HERE;
 \n
-\t/\     PIRATE SEARCH v2.0
+\t/\     PIRATE SEARCH $version
 \t||_____-----_____-----_____
 \t||   O                  O  \\
 \t||    O\\\\    ___    //O    /
@@ -56,6 +55,7 @@ sub update_check {
 	}
   }
   close(UPDATE);
+  unlink "update.txt";
 }
 
 clear();
@@ -78,17 +78,13 @@ my ($url, $num , $_num, $agent, $qntd, $loop, $search, $results) = undef;
 print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
 chomp($search = <STDIN>);
 while(!$search){
-  clear();
-  banner();
-  print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
+  print color("RED"),"\n[!]",color("reset") . " Digite sua pesquisa: ";
   chomp($search = <STDIN>);
 }
-print color("RED"),"[!]",color("reset") . " Digite a quantidade de resultados: ";
+print color("RED"),"\n[!]",color("reset") . " Digite a quantidade de resultados: ";
 chomp($results = <STDIN>);
 while(!$results){
-  clear();
-  banner();
-  print color("RED"),"[!]",color("reset") . " Digite a quantidade de resultados: ";
+  print color("RED"),"\n[!]",color("reset") . " Digite a quantidade de resultados: ";
   chomp($results = <STDIN>);
 }
 print "\n";
@@ -122,7 +118,7 @@ while(<SEARCH>){
 }
 if(! -e "torrents.txt"){
   print color("RED"),"[!]",color("reset") . " Nenhum resultado :(\n";
-  print color("GREEN"),"\n[*]",color("reset") . " Pirate Search v2.0\n";
+  print color("GREEN"),"\n[*]",color("reset") . " Pirate Search $version\n";
   close(SEARCH);
   unlink "search.txt";
   exit;
@@ -132,9 +128,7 @@ print "\n";
 print color("RED"),"[!]",color("reset") . " Ver informacao de algum (y|n): ";
 chomp($num = <STDIN>);
 while(!$num){
-  clear();
-  banner();
-  print color("RED"),"[!]",color("reset") . " Ver informacao de algum (y|n): ";
+  print color("RED"),"\n[!]",color("reset") . " Ver informacao de algum (y|n): ";
   chomp($num = <STDIN>);
 }
 if($num =~ /y/i){
@@ -167,6 +161,6 @@ if($num =~ /y/i){
   }
   close(TORRENT);
 }else{
-  print color("GREEN"),"\n[*]",color("reset") . " Pirate Search v2.0\n";
+  print color("GREEN"),"\n[*]",color("reset") . " Pirate Search $version\n";
   exit;
 }
