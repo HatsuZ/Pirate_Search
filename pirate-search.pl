@@ -52,7 +52,7 @@ sub update_check {
 	    print color("GREEN"),"Atualizacao disponivel $1",color("reset") . ": https://github.com/HatsuZ/Pirate-Search/edit/master/pirate-search.pl\n";
 	    print "+" . "-" x 35 . "+\n\n";
 	  }else{
-	    print color("GREEN"),"[*]",color("reset") . " Sem atualizacoes\n";
+	    print color("GREEN"),"\n[*]",color("reset") . " Sem atualizacoes\n\n";
 	  }
 	}
   }
