@@ -51,6 +51,8 @@ sub update_check {
 	    print "+" . "-" x 35 . "+\n";
 	    print color("GREEN"),"Atualizacao disponivel $1",color("reset") . ": https://github.com/HatsuZ/Pirate-Search/edit/master/pirate-search.pl\n";
 	    print "+" . "-" x 35 . "+\n\n";
+	  }else{
+	    print color("GREEN"),"[*]",color("reset") . " Sem atualizacoes\n";
 	  }
 	}
   }
@@ -60,16 +62,28 @@ sub update_check {
 
 clear();
 banner();
-update_check();
 
-my ($url, $num , $_num, $agent, $qntd, $loop, $search, $results) = undef;
+my ($url, $num , $_num,  $check, $agent, $qntd, $loop, $search, $results) = undef;
+print color("RED"),"[!]",color("reset") . " Verificar atualizacoes (y|n): ";
+chomp($check = <STDIN>);
+while(!$check){
+  clear();
+  banner();
+  print color("RED"),"[!]",color("reset") . " Verificar atualizacoes (y|n): ";
+  chomp($check = <STDIN>);
+}
+if($check =~ /y/i){
+  update_check();
+}else{
+  clear();
+  banner();
+}
 print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
 chomp($search = <STDIN>);
 while(!$search){
   clear();
   banner();
-  update_check();
-  print color("RED"),"\n[!]",color("reset") . " Digite sua pesquisa: ";
+  print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
   chomp($search = <STDIN>);
 }
 print color("RED"),"[!]",color("reset") . " Digite a quantidade de resultados: ";
@@ -77,8 +91,7 @@ chomp($results = <STDIN>);
 while(!$results){
   clear();
   banner();
-  update_check();
-  print color("RED"),"[!]",color("reset") . "Digite sua pesquisa: $search\n";
+  print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: $search\n";
   print color("RED"),"[!]",color("reset") . " Digite a quantidade de resultados: ";
   chomp($results = <STDIN>);
 }
