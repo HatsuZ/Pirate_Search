@@ -62,18 +62,6 @@ clear();
 banner();
 update_check();
 
-foreach(glob "*.txt"){
-  if($_ eq "torrents.txt"){
-    unlink "torrents.txt";
-  }
-  if($_ eq "search.txt"){
-    unlink "search.txt";
-  }
-  if($_ eq "info.txt"){
-    unlink "info.txt";
-  }
-}
-
 my ($url, $num , $_num, $agent, $qntd, $loop, $search, $results) = undef;
 print color("RED"),"[!]",color("reset") . " Digite sua pesquisa: ";
 chomp($search = <STDIN>);
@@ -170,4 +158,16 @@ if($num =~ /y/i){
 }else{
   print color("GREEN"),"\n[*]",color("reset") . " Pirate Search $version\n";
   exit;
+}
+
+foreach(glob "*.txt"){
+  if($_ eq "torrents.txt"){
+    unlink "torrents.txt";
+  }
+  if($_ eq "search.txt"){
+    unlink "search.txt";
+  }
+  if($_ eq "info.txt"){
+    unlink "info.txt";
+  }
 }
