@@ -6,7 +6,7 @@ use Config;
 use strict;
 
 ### VERSION NUMBER ###
-my $version = "v3.0";
+my $version = "v4.0";
 ### VERSION NUMBER ###
 
 sub clear {
