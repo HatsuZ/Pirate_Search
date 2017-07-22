@@ -55,6 +55,11 @@ sub update_check {
 	    print color("GREEN"),"\n[*]",color("reset") . " Sem atualizacoes\n\n";
 	  }
 	}
+	if(/Mensagem:(.*?);/i){
+	  print "+" . "-" x 35 . "+\n";
+	  print color("GREEN"),"Mensagem",color("reset") . ": $1\n";
+	  print "+" . "-" x 35 . "+\n\n";
+	}
   }
   close(UPDATE);
   unlink "update.txt";
