@@ -6,7 +6,7 @@ use Config;
 use strict;
 
 ### VERSION NUMBER ###
-my $version = "v4.0";
+my $version = "v3.0";
 ### VERSION NUMBER ###
 
 sub clear {
@@ -48,7 +48,7 @@ sub update_check {
   while(<UPDATE>){
     if(/===Versao:(.*?)===/i){
 	  if($1 ne $version){
-	    print "+" . "-" x 35 . "+\n";
+	    print "\n+" . "-" x 35 . "+\n";
 	    print color("GREEN"),"Atualizacao disponivel $1",color("reset") . ": https://github.com/HatsuZ/Pirate-Search/edit/master/pirate-search.pl\n";
 	    print "+" . "-" x 35 . "+\n\n";
 	  }else{
