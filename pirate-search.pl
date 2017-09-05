@@ -6,7 +6,7 @@ use Config;
 use strict;
 
 ### VERSION NUMBER ###
-my $version = "v4.0";
+my $version = "v5.0";
 ### VERSION NUMBER ###
 
 sub clear {
@@ -68,7 +68,7 @@ sub update_check {
 clear();
 banner();
 
-my ($url, $num , $_num,  $check, $agent, $qntd, $loop, $search, $results) = undef;
+my ($url, $num , $_num, $check, $agent, $qntd, $loop, $search, $results) = undef;
 print color("RED"),"[!]",color("reset") . " Verificar atualizacoes (y|n): ";
 chomp($check = <STDIN>);
 while(!$check){
@@ -164,9 +164,20 @@ if($num =~ /y/i){
 	  close(INFO);
 	  open(INFO, "<", "info.txt");
 	  while(<INFO>){ 
-	    if($_ =~ /<a(.*?)href="magnet(.*?)"(.*?)>/ig){
+	    if(-e "alert.txt" && $_ =~ /<a(.*?)href="magnet(.*?)"(.*?)>/ig){
 	  	  print color("GREEN"),"\n[*]",color("reset") . " Magnet link: magnet$2\n";
 		  last;
+		}
+		if($_ =~ /<dt>Seeders:<\/dt>/){
+		  unlink "alert.txt";
+		}
+		if(! -e "alert.txt"){
+		  if($_ =~ /<dd>(\d+)<\/dd>/){
+		    print color("GREEN"),"\n[*]",color("reset") . " Seeders: $1\n";
+			open(AGAIN, ">", "alert.txt");
+			print AGAIN "...";
+			close(AGAIN);
+		  }
 		}
 	  }
 	  close(INFO);
@@ -187,5 +198,8 @@ foreach(glob "*.txt"){
   }
   if($_ eq "info.txt"){
     unlink "info.txt";
+  }
+  if($_ eq "alert.txt"){
+    unlink "alert.txt";
   }
 }
