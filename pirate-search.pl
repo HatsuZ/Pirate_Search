@@ -9,6 +9,23 @@ use strict;
 my $version = "v5.0";
 ### VERSION NUMBER ###
 
+sub txt_clear{
+  foreach(glob "*.txt"){
+    if($_ eq "torrents.txt"){
+      unlink "torrents.txt";
+    }
+    if($_ eq "search.txt"){
+      unlink "search.txt";
+    }
+    if($_ eq "info.txt"){
+      unlink "info.txt";
+    }
+    if($_ eq "alert.txt"){
+      unlink "alert.txt";
+    }
+  }
+}
+
 sub clear {
   if($Config{osname} =~ /win/i){
     system("cls");
@@ -18,7 +35,8 @@ sub clear {
 }
 
 sub banner {
-print <<HERE;
+  &txt_clear;
+  print <<HERE;
 \n
 \t/\     PIRATE SEARCH $version
 \t||_____-----_____-----_____
@@ -133,7 +151,7 @@ if(! -e "torrents.txt"){
   print color("RED"),"[!]",color("reset") . " Nenhum resultado :(\n";
   print color("GREEN"),"\n[*]",color("reset") . " Pirate Search $version\n";
   close(SEARCH);
-  unlink "search.txt";
+  &txt_clear;
   exit;
 }
 close(SEARCH);
@@ -186,20 +204,7 @@ if($num =~ /y/i){
   close(TORRENT);
 }else{
   print color("GREEN"),"\n[*]",color("reset") . " Pirate Search $version\n";
+  &txt_clear;
   exit;
 }
-
-foreach(glob "*.txt"){
-  if($_ eq "torrents.txt"){
-    unlink "torrents.txt";
-  }
-  if($_ eq "search.txt"){
-    unlink "search.txt";
-  }
-  if($_ eq "info.txt"){
-    unlink "info.txt";
-  }
-  if($_ eq "alert.txt"){
-    unlink "alert.txt";
-  }
-}
+&txt_clear;
