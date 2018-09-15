@@ -5,25 +5,16 @@ use warnings;
 use Config;
 use strict;
 
+# 14/09/2018 - Perfomance otimized
+
 ### VERSION NUMBER ###
 my $version = "v5.0";
 ### VERSION NUMBER ###
 
 sub txt_clear{
-  foreach(glob "*.txt"){
-    if($_ eq "torrents.txt"){
-      unlink "torrents.txt";
-    }
-    if($_ eq "search.txt"){
-      unlink "search.txt";
-    }
-    if($_ eq "info.txt"){
-      unlink "info.txt";
-    }
-    if($_ eq "alert.txt"){
-      unlink "alert.txt";
-    }
-  }
+  unlink 'torrents.txt' if -e 'torrents.txt';
+  unlink 'search.txt'   if -e 'search.txt';
+  unlink 'alert.txt'    if -e 'alert.txt';
 }
 
 sub clear {
