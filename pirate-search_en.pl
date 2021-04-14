@@ -4,6 +4,7 @@ use Term::ANSIColor;
 use strict;
 
 # LEMBRAR: Colocar todos os resultados da busca em um arquivo de texto, e mostrar os resultados caso o usuário queira.
+# LEMBRAR: Adicionar expressoes regulares para formatar os resultados de acordo com o usuário.
 # Version: 0.2 BETA | Coded by: HatsuZ [BR]
 # Update history: 
 # [!] Date format => DD/MM/YYYY
